@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+# gazelle:prefix github.com/masibw/bazel-playground/go
+gazelle(name = "gazelle")
+
+go_library(
+    name = "go_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/masibw/bazel-playground/go",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//pkg/random",
+        "//pkg/uuid",
+    ],
+)
+
+go_binary(
+    name = "go",
+    embed = [":go_lib"],
+    visibility = ["//visibility:public"],
+)
